@@ -272,7 +272,7 @@ export function Setup(props: SetupProps): JSX.Element {
         open={editing() !== null}
         value={editing()?.secs ?? 60}
         label={editing() ? phaseLabel(editing()!.type) : ''}
-        color={editing() ? phaseColor(editing()!.type) : '#8e918d'}
+        color={editing() ? phaseColor(editing()!.type) : 'var(--color-muted)'}
         onChange={(secs) => {
           const phase = editing()
           if (phase) updatePhase(phase.id, { secs })

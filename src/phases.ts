@@ -6,32 +6,32 @@ export const PHASE_META: Record<
 > = {
   ready: {
     label: 'Get ready',
-    color: '#8e918d',
+    color: 'var(--color-ready)',
     hint: 'Pause before every phase',
   },
   work: {
     label: 'Work',
-    color: '#c2a15b',
+    color: 'var(--color-work)',
     hint: 'Effort interval',
   },
   rest: {
     label: 'Rest',
-    color: '#7c8b85',
+    color: 'var(--color-rest)',
     hint: 'Recovery interval',
   },
   hot: {
     label: 'Hot',
-    color: '#c07a5e',
+    color: 'var(--color-hot)',
     hint: 'Heat exposure',
   },
   cold: {
     label: 'Cold',
-    color: '#6e8fa3',
+    color: 'var(--color-cold)',
     hint: 'Cold exposure',
   },
   swap: {
     label: 'Change',
-    color: '#9a8fa8',
+    color: 'var(--color-swap)',
     hint: 'Transition between stations',
   },
 }
