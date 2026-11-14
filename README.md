@@ -7,7 +7,7 @@ de contraste frío/calor. Instalable como PWA, funciona sin conexión y guarda t
 - **Nombre**: Interval Timer · **Nombre corto**: Intervals
 - **Interfaz**: en inglés (el código y los comentarios también)
 - **Estilo**: oscuro, minimalista, paleta desaturada, pensado para móvil
-- **Demo**: https://interval-phase-timer.netlify.app
+- **Demo**: https://intervals-timer.netlify.app
 
 ---
 
