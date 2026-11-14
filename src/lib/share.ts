@@ -5,7 +5,7 @@ interface SharePayload {
   v: 2
   r: number
   g: number
-  f: Array<[string, number]>
+  f: Array<[string, number, string | null, string | null]>
 }
 
 function toBase64Url(value: string): string {
@@ -30,7 +30,12 @@ export function encodeShare(config: Config): string {
     v: 2,
     r: config.rounds,
     g: config.readySecs,
-    f: config.phases.map((phase) => [phase.type, phase.secs]),
+    f: config.phases.map((phase) => [
+      phase.type,
+      phase.secs,
+      phase.color ?? null,
+      phase.name ?? null,
+    ]),
   }
   return toBase64Url(JSON.stringify(payload))
 }
@@ -46,16 +51,20 @@ export function decodeShare(code: string): Config | null {
       id: string
       type: EditablePhaseType
       secs: number
+      color?: string
+      name?: string
     }> = []
 
     for (const entry of raw.f) {
       if (!Array.isArray(entry) || entry.length < 2) continue
-      const [type, secs] = entry
+      const [type, secs, color, name] = entry
       if (typeof type !== 'string') continue
       phases.push({
         id: uid(),
         type: type as EditablePhaseType,
         secs: Number(secs),
+        color: typeof color === 'string' ? color : undefined,
+        name: typeof name === 'string' ? name : undefined,
       })
     }
     if (phases.length === 0) return null

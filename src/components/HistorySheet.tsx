@@ -50,9 +50,9 @@ export function HistorySheet(props: HistorySheetProps): JSX.Element {
                       <span class="inline-flex items-center gap-1.5 text-[11px] text-muted">
                         <span
                           class="h-1.5 w-1.5 rounded-full"
-                          style={{ 'background-color': phaseColor(phase.type) }}
+                          style={{ 'background-color': phaseColor(phase) }}
                         />
-                        {phaseLabel(phase.type)}
+                        {phaseLabel(phase)}
                         <span class="tabular-nums text-muted">
                           {formatSecs(phase.secs)}
                         </span>

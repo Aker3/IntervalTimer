@@ -8,7 +8,7 @@ interface DoneProps {
   rounds: number
   totalSecs: number
   readySecs: number
-  phases: Array<{ type: EditablePhaseType; secs: number }>
+  phases: Array<{ type: EditablePhaseType; secs: number; color?: string; name?: string }>
   onRepeat: () => void
   onEdit: () => void
 }
@@ -38,9 +38,9 @@ export function Done(props: DoneProps): JSX.Element {
             <span class="inline-flex items-center gap-1.5 text-[11px] text-muted">
               <span
                 class="h-1.5 w-1.5 rounded-full"
-                style={{ 'background-color': phaseColor(phase.type) }}
+                style={{ 'background-color': phaseColor(phase) }}
               />
-              {phaseLabel(phase.type)}
+              {phaseLabel(phase)}
               <span class="tabular-nums text-muted">
                 {formatSecs(phase.secs)}
               </span>

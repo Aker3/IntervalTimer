@@ -228,6 +228,8 @@ export default function App() {
               session.appliedConfig()?.phases.map((phase) => ({
                 type: phase.type,
                 secs: phase.secs,
+                color: phase.color,
+                name: phase.name,
               })) ?? []
             }
             totalSecs={session.totalMs() / 1000}

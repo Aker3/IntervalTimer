@@ -1,4 +1,4 @@
-import type { PhaseType } from './types'
+import type { EditablePhaseType, PhaseType } from './types'
 
 export const PHASE_META: Record<
   PhaseType,
@@ -6,40 +6,42 @@ export const PHASE_META: Record<
 > = {
   ready: {
     label: 'Get ready',
-    color: 'var(--color-ready)',
+    color: '#94a3b8',
     hint: 'Pause before every phase',
   },
   work: {
     label: 'Work',
-    color: 'var(--color-work)',
+    color: '#fb923c',
     hint: 'Effort interval',
   },
   rest: {
     label: 'Rest',
-    color: 'var(--color-rest)',
+    color: '#60a5fa',
     hint: 'Recovery interval',
   },
   hot: {
     label: 'Hot',
-    color: 'var(--color-hot)',
+    color: '#fb7185',
     hint: 'Heat exposure',
   },
   cold: {
     label: 'Cold',
-    color: 'var(--color-cold)',
+    color: '#22d3ee',
     hint: 'Cold exposure',
   },
   swap: {
     label: 'Change',
-    color: 'var(--color-swap)',
+    color: '#a78bfa',
     hint: 'Transition between stations',
   },
 }
 
-export function phaseLabel(type: PhaseType): string {
-  return PHASE_META[type].label
+export function phaseLabel(input: PhaseType | { type: EditablePhaseType; name?: string }): string {
+  if (typeof input === 'string') return PHASE_META[input].label
+  return (input.name && input.name.trim()) || PHASE_META[input.type].label
 }
 
-export function phaseColor(type: PhaseType): string {
-  return PHASE_META[type].color
+export function phaseColor(input: PhaseType | { type: EditablePhaseType; color?: string }): string {
+  if (typeof input === 'string') return PHASE_META[input].color
+  return (input.color && input.color.trim()) || PHASE_META[input.type].color
 }

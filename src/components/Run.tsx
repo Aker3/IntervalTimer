@@ -24,7 +24,7 @@ interface RunProps {
 export function Run(props: RunProps): JSX.Element {
   const current = () => props.session.step()
   const type = () => current()?.type ?? 'ready'
-  const color = () => phaseColor(type())
+  const color = () => props.session.step()?.color ?? phaseColor(type())
   const isReady = () => type() === 'ready'
   const paused = () => props.session.status() === 'paused'
   const rounds = () => props.session.appliedConfig()?.rounds ?? 1
@@ -35,7 +35,7 @@ export function Run(props: RunProps): JSX.Element {
     const next = props.session.next()
     if (!next) return null
     return {
-      label: phaseLabel(next.type),
+      label: next.label,
       time: formatMs(next.endMs - next.startMs),
     }
   }
@@ -55,7 +55,7 @@ export function Run(props: RunProps): JSX.Element {
       <span class="sr-only" aria-live="polite">
         {isReady()
           ? 'Get ready'
-          : `${phaseLabel(type())}, round ${current()?.round ?? 1} of ${rounds()}`}
+          : `${current()?.label ?? phaseLabel(type())}, round ${current()?.round ?? 1} of ${rounds()}`}
       </span>
 
       <header class="flex items-center justify-between px-5 pb-2 pt-safe">
@@ -118,7 +118,7 @@ export function Run(props: RunProps): JSX.Element {
               class="text-[10px] font-medium uppercase tracking-[0.22em]"
               style={{ color: color() }}
             >
-              {phaseLabel(type())}
+              {current()?.label ?? phaseLabel(type())}
             </p>
             <p
               data-testid="clock"

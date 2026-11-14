@@ -5,6 +5,7 @@ import type {
   Phase,
   Settings,
 } from '../types'
+import { phaseColor } from '../phases'
 import { PHASE_TYPES } from '../types'
 import {
   MAX_PHASES,
@@ -54,6 +55,14 @@ function readySecsOf(input: Record<string, unknown>): number {
   return clampInt(Number(source), 0, MAX_READY_SECS)
 }
 
+function sanitizeColor(value: unknown, type: EditablePhaseType): string | undefined {
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  if (!/^#[0-9a-fA-F]{6}$/.test(trimmed)) return undefined
+  if (trimmed.toLowerCase() === phaseColor(type).toLowerCase()) return undefined
+  return trimmed
+}
+
 /**
  * Validates and clamps a config coming from storage or a shared URL.
  * Invalid phases are dropped; a config with no valid phases is still valid
@@ -75,6 +84,8 @@ export function sanitizeConfig(input: unknown): Config | null {
       id: typeof raw.id === 'string' && raw.id.length > 0 ? raw.id : uid(),
       type: type as EditablePhaseType,
       secs: clampInt(secs, MIN_PHASE_SECS, MAX_PHASE_SECS),
+      name: typeof raw.name === 'string' ? raw.name.trim().slice(0, 40) || undefined : undefined,
+      color: sanitizeColor(raw.color, type as EditablePhaseType),
     })
   }
 
@@ -111,6 +122,8 @@ export function sanitizeHistory(input: unknown): HistoryEntry[] {
       phases.push({
         type: type as EditablePhaseType,
         secs: clampInt(secs, MIN_PHASE_SECS, MAX_PHASE_SECS),
+        name: typeof phase.name === 'string' ? phase.name.trim().slice(0, 40) || undefined : undefined,
+        color: sanitizeColor(phase.color, type as EditablePhaseType),
       })
     }
     if (phases.length === 0) continue

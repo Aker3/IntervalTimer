@@ -1,4 +1,5 @@
 import type { Config, Step } from '../types'
+import { phaseColor, phaseLabel } from '../phases'
 
 export interface Timeline {
   steps: Step[]
@@ -23,6 +24,8 @@ export function buildTimeline(config: Config): Timeline {
           round,
           startMs: cursor,
           endMs: readyEnd,
+          label: phaseLabel('ready'),
+          color: phaseColor('ready'),
         })
         cursor = readyEnd
       }
@@ -34,6 +37,8 @@ export function buildTimeline(config: Config): Timeline {
         round,
         startMs: cursor,
         endMs: cursor + duration,
+        label: phaseLabel(phase),
+        color: phaseColor(phase),
       })
       cursor += duration
     }

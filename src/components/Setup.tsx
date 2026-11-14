@@ -5,6 +5,7 @@ import { uid } from '../lib/storage'
 import { isHapticsSupported } from '../lib/haptics'
 import { phaseColor, phaseLabel } from '../phases'
 import { PhaseRow } from './PhaseRow'
+import { PresetSheet } from './PresetSheet'
 import { Stepper } from './Stepper'
 import { TimeSheet } from './TimeSheet'
 import { ToggleButton } from './ToggleButton'
@@ -48,6 +49,12 @@ function SettingRow(props: {
 
 export function Setup(props: SetupProps): JSX.Element {
   const [editingId, setEditingId] = createSignal<string | null>(null)
+  const [presetOpen, setPresetOpen] = createSignal(false)
+
+  const applyPreset = (config: Config): void => {
+    props.onConfig({ ...config, phases: config.phases.map((p) => ({ ...p, id: uid() })) })
+    setPresetOpen(false)
+  }
 
   const editing = (): Phase | null =>
     props.config.phases.find((phase) => phase.id === editingId()) ?? null
@@ -146,21 +153,24 @@ export function Setup(props: SetupProps): JSX.Element {
 
       <main class="flex-1 overflow-y-auto px-5 pb-6">
         <div class="mx-auto w-full max-w-md">
-          <section class="mt-4">
-            <div class="mb-2 flex items-center justify-between">
-              <h2 class="text-[10px] uppercase tracking-[0.16em] text-muted">
-                Phases
-              </h2>
-              <span class="text-[10px] text-muted">
-                {phaseCount()} of {MAX_PHASES}
-              </span>
-            </div>
+          <div class="mt-4 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setPresetOpen(true)}
+              class="flex items-center gap-2 rounded-2xl border border-line/70 bg-surface/40 px-3 py-2 text-xs font-medium text-muted transition hover:text-chalk active:scale-95"
+            >
+              Presets
+            </button>
+            <span class="text-[10px] text-muted">
+              {phaseCount()} of {MAX_PHASES} intervals
+            </span>
+          </div>
 
             <Show
               when={phaseCount() > 0}
               fallback={
                 <div class="rounded-2xl border border-dashed border-line px-4 py-6 text-center">
-                  <p class="text-sm text-muted">No phases yet.</p>
+                  <p class="text-sm text-muted">No intervals yet.</p>
                   <p class="mt-1 text-xs text-muted">
                     Add work, rest, hot, cold or a changeover.
                   </p>
@@ -188,9 +198,8 @@ export function Setup(props: SetupProps): JSX.Element {
               class="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-line py-3 text-sm font-medium text-muted transition hover:border-line hover:text-chalk active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-muted"
             >
               <IconPlus class="h-4 w-4" />
-              {phaseCount() >= MAX_PHASES ? 'Phase limit reached' : 'Add phase'}
+              {phaseCount() >= MAX_PHASES ? 'Interval limit reached' : 'Add interval'}
             </button>
-          </section>
 
           <section class="mt-6 flex flex-col gap-2">
             <SettingRow title="Rounds" description="The full sequence repeats">
@@ -207,7 +216,7 @@ export function Setup(props: SetupProps): JSX.Element {
 
             <SettingRow
               title="Get ready"
-              description="Pause before every phase"
+              description="Pause before every interval"
             >
               <Stepper
                 label="get ready time"
@@ -271,13 +280,19 @@ export function Setup(props: SetupProps): JSX.Element {
       <TimeSheet
         open={editing() !== null}
         value={editing()?.secs ?? 60}
-        label={editing() ? phaseLabel(editing()!.type) : ''}
-        color={editing() ? phaseColor(editing()!.type) : 'var(--color-muted)'}
+        label={editing() ? phaseLabel(editing()!) : ''}
+        color={editing() ? phaseColor(editing()!) : 'var(--color-muted)'}
         onChange={(secs) => {
           const phase = editing()
           if (phase) updatePhase(phase.id, { secs })
         }}
         onClose={() => setEditingId(null)}
+      />
+
+      <PresetSheet
+        open={presetOpen()}
+        onClose={() => setPresetOpen(false)}
+        onApply={applyPreset}
       />
     </div>
   )
