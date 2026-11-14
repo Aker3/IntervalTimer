@@ -29,7 +29,7 @@ export function ColorPicker(props: ColorPickerProps): JSX.Element {
       <Show when={open()}>
         <div class="absolute left-0 top-10 z-40 w-72 rounded-2xl border border-line/70 bg-raised p-3 shadow-2xl">
           <p class="mb-2 text-[10px] uppercase tracking-[0.16em] text-muted">
-            32 Tailwind colors
+            16 Tailwind colors
           </p>
           <div class="grid grid-cols-8 gap-1.5">
             <For each={PRESET_COLORS}>

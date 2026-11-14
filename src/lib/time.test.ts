@@ -10,6 +10,7 @@ describe('formatSecs', () => {
     [3599, '59:59'],
     [3600, '1:00:00'],
     [3725, '1:02:05'],
+    [10800, '3:00:00'],
   ])('formats %i as %s', (input, expected) => {
     expect(formatSecs(input)).toBe(expected)
   })

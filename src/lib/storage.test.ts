@@ -34,7 +34,7 @@ describe('sanitizeConfig', () => {
     })
     expect(low?.rounds).toBe(1)
     expect(low?.readySecs).toBe(0)
-    expect(low?.phases[0].secs).toBe(3599)
+    expect(low?.phases[0].secs).toBe(10800)
   })
 
   it('defaults the get-ready gap when the field is missing', () => {
