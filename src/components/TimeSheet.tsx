@@ -17,7 +17,7 @@ interface TimeSheetProps {
   onClose: () => void
 }
 
-const QUICK_SECS = [10, 30, 60, 180, 300]
+const QUICK_SECS = [10, 30, 60, 180, 300, 600, 900, 1800, 3600]
 
 export function TimeSheet(props: TimeSheetProps): JSX.Element {
   const [text, setText] = createSignal('')

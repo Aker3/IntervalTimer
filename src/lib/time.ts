@@ -1,5 +1,5 @@
 export const MIN_PHASE_SECS = 1
-export const MAX_PHASE_SECS = 10800
+export const MAX_PHASE_SECS = 359999
 export const MAX_PHASES = 24
 export const MIN_ROUNDS = 1
 export const MAX_ROUNDS = 50
